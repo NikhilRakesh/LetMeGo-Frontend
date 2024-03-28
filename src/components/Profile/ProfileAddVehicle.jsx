@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { get_api_form_register } from '../../utils/api';
 
-const AddVechicles = () => {
+const ProfileAddVehicle = () => {
 
     const [formData, setFormData] = useState({
         vehicle_type: '',
@@ -48,7 +48,7 @@ const AddVechicles = () => {
         try {
             const response = await get_api_form_register(user.token).post('/user/vehicle/create/', formData);
             if (response.status === 201) {
-                navigate('/home')
+                navigate('/my-vehicle')
             }
         } catch (error) {
             console.log(error);
@@ -68,6 +68,9 @@ const AddVechicles = () => {
     }
     return (
         <div className='m-5'>
+             <div className='flex   '>
+                    <img src="/back.png" alt="" className='w-7' onClick={() => { navigate('/user-profile') }} />
+                </div>
             <div className='py-5'>
                 <p className='text-center text-2xl font-syne font-semibold'>Add Vehicle</p>
             </div>
@@ -119,4 +122,4 @@ const AddVechicles = () => {
     )
 }
 
-export default AddVechicles
+export default ProfileAddVehicle

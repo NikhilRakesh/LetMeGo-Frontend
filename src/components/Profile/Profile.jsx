@@ -64,12 +64,11 @@ const Profile = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="m-5 flex flex-col"
+            className="m-5 flex flex-col h-screen justify-between  "
         >
             <div>
-                <div className='flex  justify-between '>
+                <div className='flex '>
                     <img src="/back.png" alt="" className='w-7' onClick={() => { navigate('/home') }} />
-                    <img src="/bell (2).png" alt="" className='w-5 h-5' />
                 </div>
                 <div className='py-5'>
                     <p className=' font-semibold font-poppins'>Profile</p>
@@ -87,7 +86,7 @@ const Profile = () => {
                     <p className='font-semibold'>Personal Information</p>
                 </div>
                 <div className='py-5 flex flex-col gap-5'>
-                    <div className='flex justify-between'>
+                    {/* <div className='flex justify-between'>
                         <div className='flex gap-5'>
                             <img src="/user (2).png" alt="" className='w-5 h-5' />
                             <p>Profile Details</p>
@@ -95,7 +94,7 @@ const Profile = () => {
                         <div>
                             <img src="/next (1).png" alt="" className='w-5' />
                         </div>
-                    </div>
+                    </div> */}
                     <div className='flex justify-between' onClick={() => { navigate('/my-vehicle') }}>
                         <div className='flex gap-5'>
                             <img src="/automobile.png" alt="" className='w-5 h-5' />
@@ -107,7 +106,7 @@ const Profile = () => {
                     </div>
                     <div className='flex justify-between' onClick={() => { navigate('/Profile-notification') }}>
                         <div className='flex gap-5'>
-                            <img src="/bell (2).png" alt="" className='w-5 h-5'  />
+                            <img src="/bell (2).png" alt="" className='w-5 h-5' />
                             <p>Notfication</p>
                         </div>
                         <div>
@@ -130,15 +129,15 @@ const Profile = () => {
                         </div>
                         <div>
                             <img src="/next (1).png" alt="" className='w-5' />
+                            <ToastContainer />
                         </div>
                     </div>
                 </div>
             </div>
-            <div className='bg-white flex justify-center p-5 gap-20  mt-40'>
+            <div className='bg-white flex justify-center p-5 gap-20 mb-5 '>
                 <img src="/home (1).png" alt="" className='w-5 cursor-pointer' onClick={() => { navigate('/home') }} />
                 <img src="/user (1).png" alt="" className='w-5 cursor-pointer' onClick={() => { navigate('/user-profile') }} />
             </div>
-            <ToastContainer />
         </motion.div>
     )
 }

@@ -5,13 +5,16 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { get_api_form_register } from '../../utils/api';
 import { getErrorMessage } from '../../utils/validate';
+import Loading from '../Reusable/Loading ';
 
 const SearchModal = ({ closeModal, data }) => {
     const [image, setImage] = useState(null);
     const [showCamera, setShowCamera] = useState(false);
+    const [OpenLoading, setOpenLoading] = useState(false);
     const [facingMode, setFacingMode] = useState("user");
     const webcamRef = useRef(null);
     const user = useSelector(state => state.auth.user);
+    const fileInputRef = useRef(null);
 
     const capture = async () => {
         const imageSrc = webcamRef.current.getScreenshot();
@@ -41,13 +44,16 @@ const SearchModal = ({ closeModal, data }) => {
         setFacingMode(newFacingMode);
     };
     const SendPhoto = async () => {
+        setOpenLoading(true)
         try {
             const response = await get_api_form_register(user.token).post(`/user/alert/create/`, { register_number: data[0].register_number, image: image });
             if (response.status === 200) {
                 setImage('')
+                setOpenLoading(false)
                 toast.success('Alert sent successfuly')
             }
         } catch (error) {
+            setOpenLoading(false)
             console.log(error);
             const errorMessages = getErrorMessage(error)
             const generalErrors = errorMessages.filter((error) => error.field === 'general' || error.field === error.field || error.field === 'name');
@@ -62,13 +68,21 @@ const SearchModal = ({ closeModal, data }) => {
     }
     const PhoneCall = () => {
         if (data[0]?.number === 'null') {
-            toast.error('Users number is hidden instead you can sent message ')
+            toast.error('Sorry, the user’s number is hidden. Don’t worry, you can send a picture notification now!')
         } else {
             window.location = `tel:${data[0]?.number}`;
         }
     }
+    const handleUploadClick = () => {
+        fileInputRef.current.click();
+    };
 
-    
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        setImage(file);
+    };
+
+
     return (
         <>
             <div className="fixed top-0 left-0 w-full h-full flex items-center gap-3 justify-center bg-black bg-opacity-50">
@@ -81,12 +95,19 @@ const SearchModal = ({ closeModal, data }) => {
                         </div>
                     </div>
                     <div className="flex gap-4  mb-4">
-                        <button className="bg-[#9FE8FF] text-black px-4 py-2 rounded-md w-6/12" onClick={PhoneCall}>Call</button>
-                        <button className="bg-[#9FE8FF] text-black px-4 py-2 rounded-md w-6/12" onClick={() => setShowCamera(true)}>Send Image</button>
+                        <button className="bg-[#9FE8FF] text-black px-4 py-2 rounded-md " onClick={PhoneCall}>Call</button>
+                        <button className="bg-[#9FE8FF] text-black px-4 py-2 rounded-md " onClick={handleUploadClick}>Upload </button>
+                        <button className="bg-[#9FE8FF] text-black px-4 py-2 rounded-md " onClick={() => setShowCamera(true)}>Send Image</button>
                     </div>
                     <div className="flex justify-center">
-                        <button className=" bg-[#31C5F4] w-full py-2 rounded-lg text-white" onClick={closeModal}>Cancel</button>
+                        <button className=" bg-[#31C5F4] w-full py-2 rounded-lg text-white" onClick={closeModal}>Close</button>
                     </div>
+                    <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                        style={{ display: 'none' }}
+                    />
                     {showCamera && (
                         <>
                             <div className='py-3'>
@@ -114,6 +135,7 @@ const SearchModal = ({ closeModal, data }) => {
                     }
                 </div>
             </div>
+            {OpenLoading && <Loading />}
             <ToastContainer />
         </>
     );

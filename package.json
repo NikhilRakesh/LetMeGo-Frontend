@@ -10,9 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.0",
+    "@firebase/app": "^0.9.29",
+    "@firebase/messaging": "^0.12.6",
+    "@mui/material": "^5.15.14",
     "@reduxjs/toolkit": "^2.2.2",
     "axios": "^1.6.8",
     "country-state-city": "^3.2.1",
+    "firebase": "^10.9.0",
     "framer-motion": "^11.0.20",
     "notivue": "^2.2.1",
     "react": "^18.2.0",

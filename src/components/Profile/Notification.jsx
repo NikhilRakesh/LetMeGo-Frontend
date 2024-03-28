@@ -53,14 +53,14 @@ const Notification = () => {
                         <p className='text-sm font-poppins text-center'>No alert found</p>
                     </div>
                 ) : (
-                    AlertData.map((alert, index) => (
-                        <div className='py-3'>
+                    AlertData.slice().reverse().map((alert, index) => (
+                        <div className='py-3' key={index}>
                             <NotificationCard
-                                key={index}
                                 imageUrl={alert.image}
                             />
                         </div>
                     ))
+
                 )}
 
             </div>

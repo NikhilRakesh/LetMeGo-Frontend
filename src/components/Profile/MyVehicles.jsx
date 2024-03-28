@@ -13,6 +13,7 @@ const MyVehicles = () => {
 
     const [Vechicles, setVechicles] = useState([])
     const [effect, seteffect] = useState(false)
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetchSearchData()
@@ -25,6 +26,7 @@ const MyVehicles = () => {
         try {
             const response = await get_api_form_register(user.token).get(`/user/vehicle/list/`);
             if (response.status === 200) {
+                setLoading(false)
                 setVechicles(response.data)
             }
         } catch (error) {
@@ -68,32 +70,41 @@ const MyVehicles = () => {
             className="m-5  "
         >
             <div>
-                <div className='flex  justify-between '>
+                <div className='flex'>
                     <img src="/back.png" alt="" className='w-7' onClick={() => { navigate('/user-profile') }} />
-                    <img src="/bell (2).png" alt="" className='w-5 h-5' />
                 </div>
                 <div className='py-5'>
                     <p className=' font-semibold font-poppins'>My Vehicles</p>
                 </div>
                 <div className="relative">
-                    <div className='h-[550px] overflow-y-scroll'>
-                        {
-                            Vechicles.length === 0 ? (
-                                <div>
-                                    <VehicleCardSkeleton />
-                                    <VehicleCardSkeleton />
-                                    <VehicleCardSkeleton />
-                                    <VehicleCardSkeleton />
-                                    <VehicleCardSkeleton />
-                                </div>
-                            ) : (
-                                Vechicles.map((vehicle, index) => <VehicleCard vehicle={vehicle} key={vehicle.id} DeleteVehicle={DeleteVehicle} />)
-                            )
-                        }
+                    <div className='h-full overflow-y-scroll'>
+                        {loading ? (
+                            <div>
+                                <VehicleCardSkeleton />
+                                <VehicleCardSkeleton />
+                                <VehicleCardSkeleton />
+                                <VehicleCardSkeleton />
+                                <VehicleCardSkeleton />
+                            </div>
+                        ) : (
+                            <>
+                                {Vechicles.length === 0 ? (
+                                    <p className='text-center '>No vehicles added</p>
+                                ) : (
+                                    Vechicles.map((vehicle, index) => (
+                                        <VehicleCard
+                                            vehicle={vehicle}
+                                            key={vehicle.id}
+                                            DeleteVehicle={DeleteVehicle} // Assuming you have a function to delete vehicles
+                                        />
+                                    ))
+                                )}
+                            </>
+                        )}
 
                     </div>
                     <div className='flex justify-end mt-auto right-0  absolute'>
-                        <img src="/plus.png" alt="" className='w-10' onClick={() => { navigate('/add-vechicles') }} />
+                        <img src="/plus.png" alt="" className='w-12' onClick={() => { navigate('/Profile-Add-Vehicle') }} />
                     </div>
                 </div>
 

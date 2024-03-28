@@ -22,6 +22,8 @@ const CreateProfile = () => {
         hide_name: '',
         hide_number: '',
     });
+    const [dobError, setDobError] = useState('');
+    const [phoneError, setPhoneError] = useState('');
 
     const state = getStates()
 
@@ -63,10 +65,13 @@ const CreateProfile = () => {
             toast.error('Please fill in all required fields.');
             return false;
         }
+        if (dobError || phoneError) {
+            return
+        }
         try {
             const response = await get_api_form_register(user.token).post('/user/detail/create/', formData);
             if (response.status === 201) {
-                navigate('/privacy-settings') 
+                navigate('/privacy-settings')
             }
         } catch (error) {
             console.log(error);
@@ -81,17 +86,31 @@ const CreateProfile = () => {
             }
         }
     }
+    const validateDate = () => {
+        const currentDate = new Date();
+        const selectedDate = new Date(formData.dob);
+
+        if (selectedDate > currentDate) {
+            setDobError('Date cannot be a future date');
+        } else {
+            setDobError('');
+        }
+    };
+    const validatePhoneNumber = () => {
+        const phonePattern = /^[0-9]{10}$/;
+        if (!phonePattern.test(formData.number)) {
+            setPhoneError('Invalid phone number');
+        } else {
+            setPhoneError('');
+        }
+    };
 
     return (
         <div className='m-5'>
-            <div className='py-5'>
+            <div className='py-8'>
                 <p className='text-center text-2xl font-syne font-semibold'>Create Profile</p>
             </div>
             <p className='font-semibold font-syne'>Personal Details</p>
-            <div className='my-10 flex flex-col items-center justify-center'>
-                <img src="/photo.png" alt="" className='w-3/12 rounded-lg border-2 border-[#D61C4E] p-5' />
-                <p className='text-sm py-2'>User Name</p>
-            </div>
             <div className='py-8 flex flex-col gap-5'>
                 <div className='flex flex-col gap-1'>
                     <p className='text-xs text-gray-400'>Full Name*</p>
@@ -99,27 +118,29 @@ const CreateProfile = () => {
                 </div>
                 <div className='flex flex-col gap-1'>
                     <p className='text-xs text-gray-400'>Phone Number*</p>
-                    <input type="Phone" name='number' onChange={handleInputChange} className='p-2 outline-[#27ABE2] border border-gray-300 w-full rounded-md' />
+                    <input type="Phone" name='number' onBlur={validatePhoneNumber} onChange={handleInputChange} className='p-2 outline-[#27ABE2] border border-gray-300 w-full rounded-md' />
+                    {phoneError && <p className='text-xs text-red-500'>{phoneError}</p>}
                 </div>
                 <div className='flex flex-col gap-1'>
                     <p className='text-xs text-gray-400'>Date of Birth</p>
-                    <input type="date" name='dob' onChange={handleInputChange} className='p-2 outline-[#27ABE2] border border-gray-300 w-full rounded-md' />
+                    <input type="date" name='dob' onBlur={validateDate} onChange={handleInputChange} className='p-2 outline-[#27ABE2] border border-gray-300 w-full rounded-md' />
+                    {dobError && <p className='text-xs text-red-500'>{dobError}</p>}
                 </div>
                 <div className='flex flex-col gap-1'>
                     <p className='text-xs text-gray-400'>Gender</p>
                     <Dropdown bg='bg-white' data={['Male', 'Female', 'Other']} onUpdate={updateGender} />
                 </div>
                 <div className='flex flex-col gap-1'>
-                    <p className='text-xs text-gray-400'>District</p>
-                    <Dropdown bg='bg-white' onUpdate={handleDistrictChange} data={keralaDistricts} />
+                    <p className='text-xs text-gray-400'>Country</p>
+                    <Dropdown bg='bg-white' onUpdate={handleCountryChange} data={['india']} />
                 </div>
                 <div className='flex flex-col gap-1'>
                     <p className='text-xs text-gray-400'>State</p>
-                    <Dropdown bg='bg-white' data={state} onUpdate={handleStateChange} />
+                    <Dropdown bg='bg-white' data={['Kerala']} onUpdate={handleStateChange} />
                 </div>
                 <div className='flex flex-col gap-1'>
-                    <p className='text-xs text-gray-400'>Country</p>
-                    <Dropdown bg='bg-white' onUpdate={handleCountryChange} data={['india']} />
+                    <p className='text-xs text-gray-400'>District</p>
+                    <Dropdown bg='bg-white' onUpdate={handleDistrictChange} data={keralaDistricts} />
                 </div>
                 <div className='flex justify-end '>
                     <button className='text-white bg-[#27ABE2] px-5 rounded-lg py-2' onClick={onSubmit}>Next</button>

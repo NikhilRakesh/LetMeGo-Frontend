@@ -18,7 +18,9 @@ const Home = () => {
 
   useEffect(() => {
     fetchData()
+
   }, [])
+
   const navigate = useNavigate()
   const user = useSelector(state => state.auth.user);
   const backgroundImageUrl = '/home-letmego.png';
@@ -85,12 +87,12 @@ const Home = () => {
         <div className='flex justify-between w-10/12 '>
           <p className='text-xs text-white mt-4'>Good Afternoon, <span className='text-xs font-medium'>{name}</span></p>
           <div className='flex items-end'>
-            <img src="/bell (2).png" alt="" className='w-5 h-5' />
+            <img src="/bell (2).png" alt="" className='w-5 h-5' onClick={() => { navigate('/Profile-notification') }} />
           </div>
         </div>
         <div className='w-6/12  py-2'>
-          <p className='text-2xl text-white font-poppins'>Have you misplaced your car again?</p>
-          <p className='text-xs text-white py-1'>Don't worry, we're here to help you uncover the mysterious vehicle blocking your way.</p>
+          <p className='text-2xl text-white font-poppins'>Are you facing issue with any vehicle parked?</p>
+          <p className='text-xs text-white py-1'>Don’t worry if they are a LetMeGo user, you can alert them now!</p>
         </div>
       </div>
       <div className='w-full flex items-end pt-20 overflow-hidden'>

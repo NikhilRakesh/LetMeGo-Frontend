@@ -33,7 +33,6 @@ const ProfilePrivacySettings = () => {
         RevertNumber()
         setIsToggled2(prevState => !prevState);
     };
-
     const fetchhData = async () => {
         try {
             const response = await get_api_form_register(user.token).get(`/user/detail/`);
@@ -93,7 +92,6 @@ const ProfilePrivacySettings = () => {
             }
         }
     }
-console.log(ProfileData);
 
     return (
         <div className='m-5'>
@@ -101,9 +99,8 @@ console.log(ProfileData);
                 <img src="/back.png" alt="" className='w-7' onClick={() => { navigate('/user-profile') }} />
             </div>
             <div className='py-5'>
-                <p className='text-center text-2xl font-syne font-semibold'>Create Profile</p>
+                <p className='text-center text-2xl font-syne font-semibold'>Privacy Settings</p>
             </div>
-            <p className='font-semibold font-syne pt-5'>Privacy Settings</p>
             {
                 !ProfileData ? <PrivacySettingsSkeleton /> :
                     (<div className='py-10 flex flex-col gap-5'>

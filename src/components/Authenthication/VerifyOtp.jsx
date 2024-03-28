@@ -14,7 +14,7 @@ const VerifyOtp = () => {
     const concatenatedValue = parseInt(inputValues.join(''), 10);
     const navigate = useNavigate()
     const user = useSelector(state => state.auth.user);
-    const dispatch = useDispatch(); 
+    const dispatch = useDispatch();
 
     const handleInputChange = (index, e) => {
         const value = e.target.value;
@@ -41,6 +41,9 @@ const VerifyOtp = () => {
         } catch (error) {
             console.log(error);
             const errorMessages = getErrorMessage(error)
+            if (error.response.data.non_field_errors.length > 0) {
+                toast.error(error.response.data.non_field_errors[0])
+            }
             const generalErrors = errorMessages.filter((error) => error.field === 'general' || error.field === error.field || error.field === 'name');
             if (generalErrors.length >= 0) {
                 const newErrors = generalErrors.map(error => error.message);
@@ -55,7 +58,7 @@ const VerifyOtp = () => {
     return (
         <div className='m-5 flex flex-col gap-16'>
             <div>
-                <img src="/back.png" alt="" className='w-7' onClick={() => { navigate('/login') }} />
+                <img src="/back.png" alt="" className='w-7' onClick={() => { navigate('/Sign-Up') }} />
             </div>
             <div className='flex flex-col gap-4'>
                 <div>
@@ -64,6 +67,7 @@ const VerifyOtp = () => {
                 <div className='flex gap-3'>
                     {inputRefs.map((ref, index) => (
                         <input
+                            type='number'
                             key={index}
                             ref={ref}
                             className='py-4 rounded-md outline-[#27ABE2] border border-gray-400 w-2/12 text-center'
@@ -73,7 +77,7 @@ const VerifyOtp = () => {
                     ))}
                 </div>
                 <div className='py-10'>
-                    <button className='text-sm bg-[#27ABE2]  text-white py-3 rounded-md w-full' onClick={verifyOtp} >Verify</button>
+                    <button className='text-sm bg-[#27ABE2] outline-[#2385af]  text-white py-3 rounded-md w-full' onClick={verifyOtp} >Verify</button>
                 </div>
             </div>
             <ToastContainer />

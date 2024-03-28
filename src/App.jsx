@@ -18,6 +18,7 @@ import { useSelector } from 'react-redux'
 import MyVehicles from './components/Profile/MyVehicles'
 import ProfilePrivacySettings from './components/Profile/ProfilePrivacySettings'
 import Notification from './components/Profile/Notification'
+import ProfileAddVehicle from './components/Profile/ProfileAddVehicle'
 
 
 function App() {
@@ -138,6 +139,16 @@ function App() {
           element={
             isAuthenticated ? (
               <Notification />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+        <Route
+          path="/Profile-Add-Vehicle"
+          element={
+            isAuthenticated ? (
+              <ProfileAddVehicle />
             ) : (
               <Navigate to="/login" replace />
             )

@@ -16,7 +16,7 @@ const PrivacySettings = () => {
     const [isToggled2, setIsToggled2] = useState(false);
     useEffect(() => {
         fetchhData()
-    }, [isToggled, isToggled2])
+    }, [])
 
     const navigate = useNavigate()
 
@@ -59,7 +59,7 @@ const PrivacySettings = () => {
         try {
             const response = await get_api_form_register(user.token).put(`/user/revert/name/`);
             if (response.status === 200) {
-
+                fetchhData()
             }
         } catch (error) {
             console.log(error);
@@ -78,7 +78,7 @@ const PrivacySettings = () => {
         try {
             const response = await get_api_form_register(user.token).put(`/user/revert/number/`);
             if (response.status === 200) {
-
+                fetchhData()
             }
         } catch (error) {
             console.log(error);
@@ -98,7 +98,7 @@ const PrivacySettings = () => {
     return (
         <div className='m-5'>
             <div className='flex   '>
-                <img src="/back.png" alt="" className='w-7' onClick={() => { navigate('/user-profile') }} />
+                <img src="/back.png" alt="" className='w-7' onClick={() => { navigate('/home') }} />
             </div>
             <div className='py-5'>
                 <p className='text-center text-2xl font-syne font-semibold'>Create Profile</p>

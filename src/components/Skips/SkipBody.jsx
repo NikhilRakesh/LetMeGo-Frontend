@@ -48,11 +48,11 @@ const SkipBody = () => {
                 </Link>
             </div>
             <div className='py-10'>
-                <p className=' text-center font-medium' onClick={NextOrSkip}>Skip</p>
+                <p className=' text-center font-medium' onClick={() => { navigate('/login') }}>Skip</p>
             </div>
             <div className='flex justify-center'>
                 {location.pathname === '/skip-3' ?
-                    (<button className='text-white  bg-[#31C5F4] px-8 py-2 rounded-md'onClick={()=>{navigate('/login')}} >Get Started</button>)
+                    (<button className='text-white  bg-[#31C5F4] px-8 py-2 rounded-md' onClick={() => { navigate('/login') }} >Get Started</button>)
                     :
                     (<button className='text-white  bg-[#31C5F4] px-8 py-2 rounded-md' onClick={NextOrSkip}>Next</button>)
                 }
