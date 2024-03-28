@@ -12,19 +12,39 @@ const Home = () => {
 
   const [name, setname] = useState()
   const [OpenModal, setOpenModal] = useState(false)
+  const [NotificationCount, setNotificationCount] = useState(0)
   const [regNumber, setregNumber] = useState('')
   const [regNumberError, setregNumberError] = useState('')
   const [searchData, setsearchData] = useState([])
 
   useEffect(() => {
     fetchData()
-
+    fetchNotification()
   }, [])
 
   const navigate = useNavigate()
   const user = useSelector(state => state.auth.user);
   const backgroundImageUrl = '/home-letmego.png';
 
+  const fetchNotification = async () => {
+    try {
+      const response = await get_api_form_register(user.token).get(`/user/notification/count/`);
+      if (response.status === 200) {
+        setNotificationCount(response.data.notification_count)
+      }
+    } catch (error) {
+      console.log(error);
+      const errorMessages = getErrorMessage(error)
+      const generalErrors = errorMessages.filter((error) => error.field === 'general' || error.field === error.field || error.field === 'name');
+      if (generalErrors.length >= 0) {
+        const newErrors = generalErrors.map(error => error.message);
+        newErrors.forEach(error => toast.error(error));
+      }
+      else if (error.message) {
+        toast.error(`${error.message || 'Somthing went wrong'}`)
+      }
+    }
+  }
   const fetchData = async () => {
     try {
       const response = await get_api_form_register(user.token).get('/user/get/first/');
@@ -86,8 +106,11 @@ const Home = () => {
       <div className="absolute top-0 left-0 w-full m-5 ">
         <div className='flex justify-between w-10/12 '>
           <p className='text-xs text-white mt-4'>Good Afternoon, <span className='text-xs font-medium'>{name}</span></p>
-          <div className='flex items-end'>
+          <div className='relative'>
             <img src="/bell (2).png" alt="" className='w-5 h-5' onClick={() => { navigate('/Profile-notification') }} />
+            {NotificationCount > 0 &&
+              <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-500 text-white rounded-full px-2 py-1 text-xs">{NotificationCount}</span>
+            }
           </div>
         </div>
         <div className='w-6/12  py-2'>
