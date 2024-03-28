@@ -126,8 +126,8 @@ const SearchModal = ({ closeModal, data }) => {
                         </>
                     )}
                     {image &&
-                        (<div>
-                            <img src={URL.createObjectURL(image)} alt="Captured" className='rounded-lg py-3' />
+                        (<div className='flex flex-col items-center'>
+                            <img src={URL.createObjectURL(image)} alt="Captured" className='rounded-lg py-3 w-[200px] h-[200px] object-cover' />
                             <div className='flex justify-center'>
                                 <button className='bg-[#31C5F4] text-white px-4 py-2 rounded-md' onClick={SendPhoto}>Send</button>
                             </div>
