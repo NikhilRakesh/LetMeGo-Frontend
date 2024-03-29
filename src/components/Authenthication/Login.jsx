@@ -13,7 +13,7 @@ const Login = () => {
                 <p className='text-2xl font-bold font-poppins text-center'>Welcome to Let Me Go</p>
             </div>
             <div>
-                <p className='text-xs text-gray-400 text-center'>Aenean posuere, tortor sed cursus feugiat, nunc augue blandit nunc, eu sollicitudin urna dolor sagittis lacus.</p>
+                <p className='text-xs text-gray-400 text-center'>The smart application to notify unevenly parked vehicle owners. It's a community app so make sure to share with others.</p>
             </div>
             <div className='flex justify-center'>
                 <button className='text-white  bg-[#31C5F4] px-20 py-2 rounded-md' onClick={() => { navigate('/Sign-Up') }} >Sign up</button>

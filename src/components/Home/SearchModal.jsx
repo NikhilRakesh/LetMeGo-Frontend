@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { get_api_form_register } from '../../utils/api';
 import { getErrorMessage } from '../../utils/validate';
 import Loading from '../Reusable/Loading ';
+import { resizeFile } from 'react-image-file-resizer';
 
 const SearchModal = ({ closeModal, data }) => {
     const [image, setImage] = useState(null);
@@ -16,12 +17,71 @@ const SearchModal = ({ closeModal, data }) => {
     const user = useSelector(state => state.auth.user);
     const fileInputRef = useRef(null);
 
+
+    const resizeImage = async (imageFile, maxWidth = 250, maxHeight = 250) => {
+        const image = await createImage(imageFile);
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+
+        const imageWidth = image.width;
+        const imageHeight = image.height;
+
+        if (imageWidth <= maxWidth && imageHeight <= maxHeight) {
+            return imageFile;
+        }
+
+        let scaleFactor = 1;
+
+        if (imageWidth > maxWidth) {
+            scaleFactor = maxWidth / imageWidth;
+        }
+
+        if (imageHeight > maxHeight) {
+            const scaleWidth = scaleFactor * imageWidth;
+            const scaleHeight = imageHeight * (scaleWidth / imageWidth);
+
+            if (scaleHeight > maxHeight) {
+                scaleFactor = maxHeight / scaleHeight;
+            }
+        }
+
+        const targetWidth = Math.floor(imageWidth * scaleFactor);
+        const targetHeight = Math.floor(imageHeight * scaleFactor);
+
+        canvas.width = targetWidth;
+        canvas.height = targetHeight;
+
+        context.drawImage(image, 0, 0, targetWidth, targetHeight);
+
+        return new Promise((resolve) => {
+            canvas.toBlob(blob => {
+                resolve(new File([blob], imageFile.name, { type: imageFile.type, lastModified: imageFile.lastModified }));
+            }, 'image/jpeg');
+        });
+    };
+
+    const createImage = (file) => {
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+
+            reader.onload = (event) => {
+                const img = new Image();
+
+                img.src = event.target.result;
+                img.onload = () => resolve(img);
+            };
+
+            reader.readAsDataURL(file);
+        });
+    };
     const capture = async () => {
         const imageSrc = webcamRef.current.getScreenshot();
         const contentType = 'image/jpeg';
         const file = base64ToFile(imageSrc, 'image.jpg', contentType);
 
-        setImage(file);
+        const resizedFile = await resizeImage(file, 250, 250);
+
+        setImage(resizedFile);
         setShowCamera(false);
     };
     const base64ToFile = (base64Data, fileName, contentType) => {
@@ -77,9 +137,11 @@ const SearchModal = ({ closeModal, data }) => {
         fileInputRef.current.click();
     };
 
-    const handleFileChange = (event) => {
+    const handleFileChange = async (event) => {
         const file = event.target.files[0];
-        setImage(file);
+        const resizedFile = await resizeImage(file, 250, 250);
+
+        setImage(resizedFile);
     };
 
 

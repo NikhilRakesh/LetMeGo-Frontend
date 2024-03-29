@@ -30,8 +30,23 @@ export default defineConfig({
             "type": "image/png",
             "purpose": "maskable"
           }
+        ],
+        "screenshots": [
+          {
+            "src": "/Screenshot 2024-03-29 192716.png",
+            "sizes": "1894x958",     
+            "type": "image/png",
+            "form_factor": "narrow"
+          },
+          {
+            "src": "/26_HOME (1).jpg",
+            "sizes": "370x800",     
+            "type": "image/png",
+            "form_factor": "wide"
+          }
         ]
       },
+        
     })
   ],
   server: {
