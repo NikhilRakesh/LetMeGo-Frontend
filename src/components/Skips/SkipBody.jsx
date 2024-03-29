@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion';
+import CustomInstallPopup from '../Authenthication/CustomInstallPopup';
 
 const SkipBody = () => {
+
+    const [showInstallPopup, setShowInstallPopup] = useState(false);
 
     const pageVariants = {
         initial: {
@@ -33,6 +36,52 @@ const SkipBody = () => {
         }
     }
 
+    const handleInstallPrompt = (event) => {
+        // Prevent the default behavior
+        event.preventDefault();
+
+        // Set the popup state to true to show the custom install popup
+        setShowInstallPopup(true);
+
+        // Save the event for later use
+        window.deferredPrompt = event;
+    };
+
+    const handleClosePopup = () => {
+        setShowInstallPopup(false);
+        window.deferredPrompt = null;
+    };
+
+    const handleInstallClick = async () => {
+        const promptEvent = window.deferredPrompt;
+
+        if (promptEvent) {
+            // Show the install prompt
+            promptEvent.prompt();
+
+            // Wait for the user's choice
+            const { outcome } = await promptEvent.userChoice;
+
+            if (outcome === 'accepted') {
+                console.log('User accepted the install prompt.');
+            } else {
+                console.log('User dismissed the install prompt.');
+            }
+
+            // Reset the deferredPrompt property
+            window.deferredPrompt = null;
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('beforeinstallprompt', handleInstallPrompt);
+
+        return () => {
+            window.removeEventListener('beforeinstallprompt', handleInstallPrompt);
+        };
+    }, []);
+
+
     return (
         <div>
             <Outlet />
@@ -57,6 +106,7 @@ const SkipBody = () => {
                     (<button className='text-white  bg-[#31C5F4] px-8 py-2 rounded-md' onClick={NextOrSkip}>Next</button>)
                 }
             </div>
+            {showInstallPopup && <CustomInstallPopup onClose={handleClosePopup} onInstall={handleInstallClick} />}
         </div>
     )
 }
