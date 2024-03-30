@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import api, { get_api } from '../../utils/api';
@@ -11,13 +11,22 @@ const VerifyOtp = () => {
 
     const inputRefs = Array.from({ length: 6 }, () => useRef(null));
     const [inputValues, setInputValues] = useState(['', '', '', '', '', '']);
-    const concatenatedValue = parseInt(inputValues.join(''), 10);
+    const concatenatedValue = parseInt(inputValues.join(''));
     const navigate = useNavigate()
     const user = useSelector(state => state.auth.user);
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        if (inputRefs.length > 0 && inputRefs[0].current) {
+            inputRefs[0].current.focus();
+        }
+    }, []);
+
     const handleInputChange = (index, e) => {
-        const value = e.target.value;
+        let value = e.target.value;
+        if (value.length > 0) {
+            value = value.slice(0, 1);
+        }
         const newInputValues = [...inputValues];
         newInputValues[index] = value;
         setInputValues(newInputValues);
@@ -33,7 +42,7 @@ const VerifyOtp = () => {
 
     const verifyOtp = async () => {
         try {
-            const response = await api.post('/user/verify/', { key: user, otp: `${concatenatedValue}` });
+            const response = await api.post('/user/verify/', { key: user, otp: `${inputValues.join('')}` });
             if (response.status === 200) {
                 dispatch(login(response.data));
                 navigate('/otp-success')
@@ -72,6 +81,7 @@ const VerifyOtp = () => {
                             ref={ref}
                             className='py-4 rounded-md outline-[#27ABE2] border border-gray-400 w-2/12 text-center'
                             maxLength={1}
+                            value={inputValues[index].charAt(0)}
                             onChange={(e) => handleInputChange(index, e)}
                         />
                     ))}

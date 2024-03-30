@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion';
 import CustomInstallPopup from '../Authenthication/CustomInstallPopup';
+import { useSelector } from 'react-redux';
 
 const SkipBody = () => {
 
     const [showInstallPopup, setShowInstallPopup] = useState(false);
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
     const pageVariants = {
         initial: {

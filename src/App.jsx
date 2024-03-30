@@ -28,25 +28,18 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<SkipBody />} >
+        {isAuthenticated && <Route path="/" element={<Navigate to="/home" replace />} />}
+        {isAuthenticated && <Route path="/skip-2" element={<Navigate to="/home" replace />} />}
+        {isAuthenticated && <Route path="/skip-3" element={<Navigate to="/home" replace />} />}
+        {!isAuthenticated && <Route path="/" element={<SkipBody />} >
           <Route path="" element={<Skip1 />} />
           <Route path="skip-2" element={<Skip2 />} />
           <Route path="skip-3" element={<Skip3 />} />
-        </Route>
+        </Route>}
         <Route path="/login" element={<Login />} ></Route>
         <Route path="/Sign-Up" element={<SignUp />} ></Route>
         <Route path="/Sign-in" element={<SignIn />} ></Route>
-        <Route
-          path="/verify-otp"
-          element={
-            isAuthenticated ? (
-              <VerifyOtp />
-            ) : (
-              <Navigate to="/login" replace />
-            )
-          }
-        />
-
+        <Route path="/verify-otp" element={isAuthenticated ? (<VerifyOtp />) : (<Navigate to="/login" replace />)} />
         <Route
           path="/otp-success"
           element={
