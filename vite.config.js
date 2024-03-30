@@ -12,7 +12,7 @@ export default defineConfig({
       },
       manifest: {
         "name": "LetMeGo",
-        "short_name": "LMG",
+        "short_name": "LetMeGo",
         "start_url": ".",
         "display": "standalone",
         "background_color": "#ffffff",
@@ -34,19 +34,19 @@ export default defineConfig({
         "screenshots": [
           {
             "src": "/Screenshot 2024-03-29 192716.png",
-            "sizes": "1894x958",     
+            "sizes": "1894x958",
             "type": "image/png",
             "form_factor": "narrow"
           },
           {
             "src": "/26_HOME (1).jpg",
-            "sizes": "370x800",     
+            "sizes": "370x800",
             "type": "image/png",
             "form_factor": "wide"
           }
         ]
       },
-        
+
     })
   ],
   server: {

@@ -12,6 +12,7 @@ const SearchModal = ({ closeModal, data }) => {
     const [image, setImage] = useState(null);
     const [showCamera, setShowCamera] = useState(false);
     const [OpenLoading, setOpenLoading] = useState(false);
+    const [OpenWarning, setOpenWarning] = useState(false);
     const [facingMode, setFacingMode] = useState("user");
     const webcamRef = useRef(null);
     const user = useSelector(state => state.auth.user);
@@ -59,7 +60,6 @@ const SearchModal = ({ closeModal, data }) => {
             }, 'image/jpeg');
         });
     };
-
     const createImage = (file) => {
         return new Promise((resolve) => {
             const reader = new FileReader();
@@ -136,11 +136,9 @@ const SearchModal = ({ closeModal, data }) => {
     const handleUploadClick = () => {
         fileInputRef.current.click();
     };
-
     const handleFileChange = async (event) => {
         const file = event.target.files[0];
         const resizedFile = await resizeImage(file, 250, 250);
-
         setImage(resizedFile);
     };
 
@@ -157,12 +155,12 @@ const SearchModal = ({ closeModal, data }) => {
                         </div>
                     </div>
                     <div className="flex gap-4  mb-4">
-                        <button className="bg-[#9FE8FF] text-black px-4 py-2 rounded-md " onClick={PhoneCall}>Call</button>
-                        <button className="bg-[#9FE8FF] text-black px-4 py-2 rounded-md " onClick={handleUploadClick}>Upload </button>
-                        <button className="bg-[#9FE8FF] text-black px-4 py-2 rounded-md " onClick={() => setShowCamera(true)}>Send Image</button>
+                        <button className="bg-[#9FE8FF] w-6/12 text-black px-4 py-2 rounded-md " onClick={PhoneCall}>Call</button>
+                        <button className="bg-[#9FE8FF] w-6/12 text-black px-4 py-2 rounded-md " onClick={handleUploadClick}>Upload </button>
+                        {/* <button className="bg-[#9FE8FF] text-black px-4 py-2 rounded-md " onClick={() => setShowCamera(true)}>Send Image</button> */}
                     </div>
                     <div className="flex justify-center">
-                        <button className=" bg-[#31C5F4] w-full py-2 rounded-lg text-white" onClick={closeModal}>Close</button>
+                        <button className=" bg-[#31C5F4] w-full py-2 rounded-lg text-white" onClick={() => { setOpenWarning(true) }}>Close</button>
                     </div>
                     <input
                         type="file"
@@ -198,6 +196,43 @@ const SearchModal = ({ closeModal, data }) => {
                 </div>
             </div>
             {OpenLoading && <Loading />}
+            {OpenWarning &&
+                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+                    <div className="bg-white w-96 p-6 rounded-lg shadow-lg">
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-lg font-semibold text-red-600">Warning!</h2>
+                            <button >
+                                <svg
+                                    className="w-6 h-6 text-gray-700 hover:text-gray-900"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                >
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM5.293 6.707a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414L11.414 12l3.293 3.293a1 1 0 01-1.414 1.414L10 13.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 12 5.293 8.707a1 1 0 010-1.414z"
+                                        clipRule="evenodd"
+                                    />
+                                </svg>
+                            </button>
+                        </div>
+                        <p>Are you sure you want to close?</p>
+                        <div className="flex justify-end mt-6">
+                            <button
+                                className="px-4 py-2 mr-4 bg-red-500 text-white rounded-md hover:bg-red-600"
+                                onClick={closeModal}
+                            >
+                                Sure
+                            </button>
+                            <button
+                                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+                                onClick={() => { setOpenWarning(false) }}
+                            >
+                                No
+                            </button>
+                        </div>
+                    </div>
+                </div>}
             <ToastContainer />
         </>
     );

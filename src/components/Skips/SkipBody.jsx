@@ -108,7 +108,7 @@ const SkipBody = () => {
                     (<button className='text-white  bg-[#31C5F4] px-8 py-2 rounded-md' onClick={NextOrSkip}>Next</button>)
                 }
             </div>
-            {showInstallPopup && <CustomInstallPopup onClose={handleClosePopup} onInstall={handleInstallClick} />}
+            {/* {showInstallPopup && <CustomInstallPopup onClose={handleClosePopup} onInstall={handleInstallClick} />} */}
         </div>
     )
 }

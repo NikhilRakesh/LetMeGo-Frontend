@@ -101,6 +101,21 @@ const Home = () => {
       }
     }
   }
+  const getGreeting = () => {
+    const date = new Date();
+    const hours = date.getHours();
+
+    if (hours >= 5 && hours < 12) {
+      return "Good Morning";
+    } else if (hours >= 12 && hours < 17) {
+      return "Good Afternoon";
+    } else {
+      return "Good Evening";
+    }
+  };
+
+  const greeting = getGreeting();
+
 
   return (
     <motion.div
@@ -112,7 +127,7 @@ const Home = () => {
     >
       <div className="absolute top-0 left-0 w-full m-5 ">
         <div className='flex justify-between w-10/12 '>
-          <p className='text-xs text-white mt-4'>Good Afternoon, <span className='text-xs font-medium'>{name}</span></p>
+          <p className='text-xs text-white mt-4'>{greeting}, <span className='text-xs font-medium'>{name}</span></p>
           <div className='relative'>
             <img src="/bell (2).png" alt="" className='w-5 h-5' onClick={() => { navigate('/Profile-notification') }} />
             {NotificationCount > 0 &&
