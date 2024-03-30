@@ -77,7 +77,7 @@ const VerifyOtp = () => {
                 <div className='flex gap-3'>
                     {inputRefs.map((ref, index) => (
                         <input
-                            type='text'
+                            type='number'
                             key={index}
                             ref={ref}
                             className='py-4 rounded-md outline-[#27ABE2] border scrollhost scrollbar-hide border-gray-400 w-2/12 text-center  overflow-y-hidden overflow-x-hidden'

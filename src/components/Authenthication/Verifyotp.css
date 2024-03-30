@@ -1,5 +1,17 @@
 .scrollhost ::-webkit-scrollbar {
-    display: none;
-    scrollbar-color: transparent transparent;
-    width: 0;
-  }
+  display: none;
+  scrollbar-color: transparent transparent;
+  width: 0;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Ensure the input retains its style */
+input[type=number] {
+  -moz-appearance: textfield;
+  /* Firefox */
+}
