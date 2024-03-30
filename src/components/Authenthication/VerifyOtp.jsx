@@ -79,7 +79,7 @@ const VerifyOtp = () => {
                             type='number'
                             key={index}
                             ref={ref}
-                            className='py-4 rounded-md outline-[#27ABE2] border border-gray-400 w-2/12 text-center'
+                            className='py-4 rounded-md outline-[#27ABE2] border border-gray-400 w-2/12 text-center overflow-hidden'
                             maxLength={1}
                             value={inputValues[index].charAt(0)}
                             onChange={(e) => handleInputChange(index, e)}

@@ -41,7 +41,7 @@ const Skip1 = () => {
                         <p className='font-bold font-poppins text-2xl text-center'>Notify Unevenly Parked Vechicle Owners Now!</p>
                     </div>
                     <div className='text-xs text-gray-400 font-poppins text-center'>
-                        <p >Aenean posuere, tortor sed cursus feugiat, nunc augue blandit nunc, eu sollicitudin urna dolor sagittis lacus.</p>
+                        <p >#LetMeGo</p>
                     </div>
                 </div>
             </motion.div>
