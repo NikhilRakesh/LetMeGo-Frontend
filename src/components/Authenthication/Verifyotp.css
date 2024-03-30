@@ -1,0 +1,5 @@
+.scrollhost ::-webkit-scrollbar {
+    display: none;
+    scrollbar-color: transparent transparent;
+    width: 0;
+  }

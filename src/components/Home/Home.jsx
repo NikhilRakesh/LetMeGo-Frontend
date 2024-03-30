@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { get_api_form_register } from '../../utils/api';
 import { getErrorMessage, isValidRegNumber } from '../../utils/validate';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SearchModal from './SearchModal';
+import { logout } from '../../Actions/authActions';
 
 const Home = () => {
 
@@ -17,6 +18,8 @@ const Home = () => {
   const [regNumberError, setregNumberError] = useState('')
   const [searchData, setsearchData] = useState([])
 
+  const dispatch = useDispatch()
+
   useEffect(() => {
     fetchData()
     fetchNotification()
@@ -24,6 +27,8 @@ const Home = () => {
 
   const navigate = useNavigate()
   const user = useSelector(state => state.auth.user);
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+
   const backgroundImageUrl = '/home-letmego.png';
 
   const fetchNotification = async () => {
@@ -54,6 +59,9 @@ const Home = () => {
     } catch (error) {
       console.log(error);
       const errorMessages = getErrorMessage(error)
+      if (error.response.data.detail === "Invalid token.") {
+        dispatch(logout())
+      }
       const generalErrors = errorMessages.filter((error) => error.field === 'general' || error.field === error.field || error.field === 'name');
       if (generalErrors.length >= 0) {
         const newErrors = generalErrors.map(error => error.message);
@@ -93,7 +101,6 @@ const Home = () => {
       }
     }
   }
-
 
   return (
     <motion.div

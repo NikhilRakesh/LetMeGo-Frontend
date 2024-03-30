@@ -1,20 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import api, { get_api } from '../../utils/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { login } from '../../Actions/authActions';
 import { getErrorMessage } from '../../utils/validate';
+import './Verifyotp.css'
 
 const VerifyOtp = () => {
 
     const inputRefs = Array.from({ length: 6 }, () => useRef(null));
     const [inputValues, setInputValues] = useState(['', '', '', '', '', '']);
-    const concatenatedValue = parseInt(inputValues.join(''));
     const navigate = useNavigate()
     const user = useSelector(state => state.auth.user);
     const dispatch = useDispatch();
+    const { id } = useParams();
 
     useEffect(() => {
         if (inputRefs.length > 0 && inputRefs[0].current) {
@@ -42,7 +43,7 @@ const VerifyOtp = () => {
 
     const verifyOtp = async () => {
         try {
-            const response = await api.post('/user/verify/', { key: user, otp: `${inputValues.join('')}` });
+            const response = await api.post('/user/verify/', { key: id, otp: `${inputValues.join('')}` });
             if (response.status === 200) {
                 dispatch(login(response.data));
                 navigate('/otp-success')
@@ -76,10 +77,10 @@ const VerifyOtp = () => {
                 <div className='flex gap-3'>
                     {inputRefs.map((ref, index) => (
                         <input
-                            type='number'
+                            type='text'
                             key={index}
                             ref={ref}
-                            className='py-4 rounded-md outline-[#27ABE2] border border-gray-400 w-2/12 text-center overflow-hidden'
+                            className='py-4 rounded-md outline-[#27ABE2] border scrollhost scrollbar-hide border-gray-400 w-2/12 text-center  overflow-y-hidden overflow-x-hidden'
                             maxLength={1}
                             value={inputValues[index].charAt(0)}
                             onChange={(e) => handleInputChange(index, e)}

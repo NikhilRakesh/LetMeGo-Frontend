@@ -23,9 +23,9 @@ const SignUp = () => {
     try {
       const response = await api.post('/user/otp/', { email: email });
       if (response.status === 200) {
-        dispatch(login(response.data.key));
+        // dispatch(login(response.data.key));
         setLoadingopen(false)
-        navigate('/verify-otp');
+        navigate(`/verify-otp/${response.data.key}`);
       }
     } catch (error) {
       setLoadingopen(false)
