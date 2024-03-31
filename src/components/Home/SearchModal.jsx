@@ -156,7 +156,7 @@ const SearchModal = ({ closeModal, data }) => {
                     </div>
                     <div className="flex gap-4  mb-4">
                         <button className="bg-[#9FE8FF] w-6/12 text-black px-4 py-2 rounded-md " onClick={PhoneCall}>Call</button>
-                        <button className="bg-[#9FE8FF] w-6/12 text-black px-4 py-2 rounded-md " onClick={handleUploadClick}>Upload </button>
+                        <button className="bg-[#9FE8FF] w-6/12 text-black px-4 py-2 rounded-md " onClick={handleUploadClick}>Upload image</button>
                         {/* <button className="bg-[#9FE8FF] text-black px-4 py-2 rounded-md " onClick={() => setShowCamera(true)}>Send Image</button> */}
                     </div>
                     <div className="flex justify-center">
